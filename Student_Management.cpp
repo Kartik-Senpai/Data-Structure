@@ -3,7 +3,6 @@
 #include <string>
 using namespace std;
 
-// Student class
 class Student {
 public:
     int rollNo;
@@ -21,7 +20,7 @@ public:
     }
 };
 
-// Node class for doubly linked list
+
 class Node {
 public:
     Student data;
@@ -35,7 +34,7 @@ public:
     }
 };
 
-// Doubly Linked List class
+
 class List {
 private:
     Node* head;
@@ -47,7 +46,7 @@ public:
         tail = nullptr;
     }
 
-    // Add new student
+
     void addStudent(Student s) {
         Node* newNode = new Node(s);
         if (!head) {
@@ -65,7 +64,7 @@ public:
         cout << "---------------------------------------------\n";
     }
 
-    // Delete student by roll number
+
     void deleteStudent(int roll) {
         Node* temp = head;
         while (temp && temp->data.rollNo != roll)
@@ -89,7 +88,6 @@ public:
         cout << "Student deleted successfully.\n";
     }
 
-    // Update student record
     void updateStudent(int roll) {
         Node* temp = head;
         while (temp) {
@@ -124,7 +122,7 @@ public:
         cout << "Student not found!\n";
     }
 
-    // Search student by roll number
+
     void searchStudent(int roll) {
         Node* temp = head;
         while (temp) {
@@ -141,7 +139,7 @@ public:
         cout << "Student not found!\n";
     }
 
-    // Sort records by marks (ascending or descending)
+
     void sortByMarks(bool ascending = true) {
         if (!head) {
             cout << "No records to sort.\n";
@@ -159,7 +157,7 @@ public:
         cout << "Records sorted by marks (" << (ascending ? "Ascending" : "Descending") << ").\n";
     }
 
-    // Sort records by roll number
+
     void sortByRoll(bool ascending = true) {
         if (!head) {
             cout << "No records to sort.\n";
@@ -177,7 +175,7 @@ public:
         cout << "Records sorted by roll number (" << (ascending ? "Ascending" : "Descending") << ").\n";
     }
 
-    // Display all records
+
     void displayRecords() {
         Node* temp = head;
         if (!temp) {
@@ -202,7 +200,7 @@ int main() {
     int choice;
 
     do {
-        cout << "\n===== STUDENT RECORD MANAGEMENT SYSTEM (DLL) =====\n";
+        cout << "\nSTUDENT RECORD MANAGEMENT SYSTEM (DLL) : \n";
         cout << "1. Add Student\n";
         cout << "2. Delete Student\n";
         cout << "3. Update Student\n";
@@ -271,3 +269,4 @@ int main() {
 
     return 0;
 }
+
