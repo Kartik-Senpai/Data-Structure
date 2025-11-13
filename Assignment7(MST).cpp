@@ -4,7 +4,7 @@ using namespace std;
 
 #define V 6  // Number of delivery locations
 
-// Function to find vertex with minimum key value
+
 int minKey(int key[], bool mstSet[]) {
     int min = INT_MAX, min_index = -1;
 
@@ -17,7 +17,7 @@ int minKey(int key[], bool mstSet[]) {
     return min_index;
 }
 
-// Function to print the Minimum Spanning Tree (MST)
+
 void printMST(int parent[], int graph[V][V]) {
     int totalCost = 0;
 
@@ -78,3 +78,4 @@ int main() {
 
     return 0;
 }
+
