@@ -1,36 +1,36 @@
 #include <iostream>
 #include <iomanip>
-#include <limits> // Used for input cleanup
+#include <limits> 
 
 using namespace std;
 
 #define SIZE 10
 
-// 1. Node structure for chaining
+
 struct Node {
     int key;
     int value;
     Node* next;
 };
 
-// 2. HashTable class definition
+
 class HashTable {
 private:
-    Node* table[SIZE]; // Array of pointers (start of each chain)
+    Node* table[SIZE]; 
 
-    // Hash function using division method: h(k) = k mod m
+    
     int hashFunction(int key) {
         return key % SIZE;
     }
 
 public:
-    // Constructor: Initialize all chains to null
+    
     HashTable() {
         for (int i = 0; i < SIZE; i++)
             table[i] = nullptr;
     }
 
-    // Destructor: Free all dynamically allocated memory
+    
     ~HashTable() {
         for (int i = 0; i < SIZE; ++i) {
             Node* current = table[i];
@@ -43,17 +43,17 @@ public:
         }
     }
 
-    // 3. Insert operation: Insert a key-value pair
+   
     void insert(int key, int value) {
         int index = hashFunction(key);
-        // Using direct initialization for the new node
+        
         Node* newNode = new Node{key, value, nullptr};
 
         if (table[index] == nullptr) {
-            // No collision: start a new chain
+           
             table[index] = newNode;
         } else {
-            // Collision: append to the end of the existing chain (chaining)
+            
             Node* temp = table[index];
             while (temp->next != nullptr)
                 temp = temp->next;
@@ -63,7 +63,7 @@ public:
         cout << "\n[INSERT SUCCESS] Key: " << key << ", Value: " << value << ", Stored at Index: " << index << endl;
     }
 
-    // 4. Search operation: Search for a key
+    
     void search(int key) {
         int index = hashFunction(key);
         Node* temp = table[index];
@@ -83,7 +83,7 @@ public:
         cout << "[RESULT] Key not found in hash table.\n";
     }
 
-    // 5. Delete operation: Delete a key-value pair
+    
     void deleteKey(int key) {
         int index = hashFunction(key);
         Node* current = table[index];
@@ -96,7 +96,7 @@ public:
             return;
         }
 
-        // Traverse the chain to find the key
+        
         while (current != nullptr && current->key != key) {
             previous = current;
             current = current->next;
@@ -107,10 +107,10 @@ public:
             return;
         }
 
-        // Case 1: Deleting the head node
+        
         if (previous == nullptr)
             table[index] = current->next;
-        // Case 2: Deleting a node in the middle/end
+        
         else
             previous->next = current->next;
 
@@ -118,7 +118,7 @@ public:
         cout << "[RESULT] Key " << key << " deleted successfully from index " << index << ".\n";
     }
 
-    // 6. Display hash table contents
+   
     void display() {
         cout << "\n================== HASH TABLE STATE ======================\n";
         cout << left << setw(8) << "Index" << "| Chain Content (Key, Value)" << endl;
@@ -144,12 +144,12 @@ public:
     }
 };
 
-// Main function for interactive demonstration
+
 int main() {
     HashTable h;
     int choice, key, value;
 
-    // Interactive menu loop
+    
     do {
         cout << "\n========== HASH TABLE MENU (SIZE " << SIZE << ") ==========\n";
         cout << "1. Insert Key-Value Pair\n";
@@ -164,7 +164,7 @@ int main() {
             cout << "Invalid input. Clearing stream and exiting menu.\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            choice = 0; // Exit loop on bad input
+            choice = 0; 
         }
 
         switch (choice) {
@@ -204,3 +204,4 @@ int main() {
 
     return 0;
 }
+
