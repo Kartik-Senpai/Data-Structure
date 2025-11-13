@@ -1,0 +1,108 @@
+#include <iostream>
+#include <list>
+using namespace std;
+
+class HashTable {
+private:
+    static const int SIZE = 10;   // Hash table size
+    list<pair<int, string>> table[SIZE];  // Array of linked lists (chaining)
+
+    // Hash function: division method
+    int hashFunction(int key) {
+        return key % SIZE;
+    }
+
+public:
+    // ---------- INSERT ----------
+    void insert(int key, string value) {
+        int index = hashFunction(key);
+        // Check if key already exists -> update value
+        for (auto &item : table[index]) {
+            if (item.first == key) {
+                item.second = value;
+                cout << "Key " << key << " updated with new value.\n";
+                return;
+            }
+        }
+        // If not found, insert new key-value pair
+        table[index].push_back({key, value});
+        cout << "Inserted (" << key << ", " << value << ") at index " << index << ".\n";
+    }
+
+    // ---------- SEARCH ----------
+    void search(int key) {
+        int index = hashFunction(key);
+        for (auto &item : table[index]) {
+            if (item.first == key) {
+                cout << "Found key " << key << " → Value: " << item.second << "\n";
+                return;
+            }
+        }
+        cout << "Key " << key << " not found.\n";
+    }
+
+    // ---------- DELETE ----------
+    void remove(int key) {
+        int index = hashFunction(key);
+        for (auto it = table[index].begin(); it != table[index].end(); ++it) {
+            if (it->first == key) {
+                table[index].erase(it);
+                cout << "Key " << key << " deleted.\n";
+                return;
+            }
+        }
+        cout << "Key " << key << " not found for deletion.\n";
+    }
+
+    // ---------- DISPLAY ----------
+    void display() {
+        cout << "\n--- Hash Table ---\n";
+        for (int i = 0; i < SIZE; i++) {
+            cout << i << ": ";
+            for (auto &item : table[i]) {
+                cout << "(" << item.first << ", " << item.second << ") -> ";
+            }
+            cout << "NULL\n";
+        }
+    }
+};
+
+int main() {
+    HashTable ht;
+    int choice, key;
+    string value;
+
+    while (true) {
+        cout << "\n1. Insert\n2. Search\n3. Delete\n4. Display\n5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter key: ";
+                cin >> key;
+                cout << "Enter value: ";
+                cin >> value;
+                ht.insert(key, value);
+                break;
+            case 2:
+                cout << "Enter key to search: ";
+                cin >> key;
+                ht.search(key);
+                break;
+            case 3:
+                cout << "Enter key to delete: ";
+                cin >> key;
+                ht.remove(key);
+                break;
+            case 4:
+                ht.display();
+                break;
+            case 5:
+                cout << "Exiting...\n";
+                return 0;
+            default:
+                cout << "Invalid choice!\n";
+        }
+    }
+}

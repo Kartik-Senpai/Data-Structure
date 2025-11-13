@@ -1,0 +1,153 @@
+#include <iostream>
+using namespace std;
+
+// Node structure
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int value) {
+        data = value;
+        left = right = NULL;
+    }
+};
+
+// BST Class
+class BST {
+    Node* root;
+
+    // Helper function to insert node
+    Node* insert(Node* node, int value) {
+        if (node == NULL)
+            return new Node(value);
+
+        if (value < node->data)
+            node->left = insert(node->left, value);
+        else if (value > node->data)
+            node->right = insert(node->right, value);
+
+        return node;
+    }
+
+    // Helper function to display tree (Inorder Traversal)
+    void inorder(Node* node) {
+        if (node == NULL) return;
+        inorder(node->left);
+        cout << node->data << " ";
+        inorder(node->right);
+    }
+
+    // Helper function to search for a value
+    bool search(Node* node, int key) {
+        if (node == NULL)
+            return false;
+        if (node->data == key)
+            return true;
+        else if (key < node->data)
+            return search(node->left, key);
+        else
+            return search(node->right, key);
+    }
+
+    // Helper function to find minimum node
+    Node* findMin(Node* node) {
+        while (node && node->left != NULL)
+            node = node->left;
+        return node;
+    }
+
+    // Helper function to delete node
+    Node* deleteNode(Node* node, int key) {
+        if (node == NULL)
+            return node;
+
+        if (key < node->data)
+            node->left = deleteNode(node->left, key);
+        else if (key > node->data)
+            node->right = deleteNode(node->right, key);
+        else {
+            // Node with one or no child
+            if (node->left == NULL) {
+                Node* temp = node->right;
+                delete node;
+                return temp;
+            } else if (node->right == NULL) {
+                Node* temp = node->left;
+                delete node;
+                return temp;
+            }
+
+            // Node with two children
+            Node* temp = findMin(node->right);
+            node->data = temp->data;
+            node->right = deleteNode(node->right, temp->data);
+        }
+        return node;
+    }
+
+public:
+    BST() { root = NULL; }
+
+    void insert(int value) {
+        root = insert(root, value);
+    }
+
+    void display() {
+        cout << "BST in Inorder (sorted): ";
+        inorder(root);
+        cout << endl;
+    }
+
+    void search(int key) {
+        if (search(root, key))
+            cout << key << " found in BST.\n";
+        else
+            cout << key << " not found in BST.\n";
+    }
+
+    void deleteValue(int key) {
+        root = deleteNode(root, key);
+        cout << key << " deleted (if existed).\n";
+    }
+};
+
+// Main function
+int main() {
+    BST tree;
+    int choice, value;
+
+    while (true) {
+        cout << "\n--- Binary Search Tree Operations ---\n";
+        cout << "1. Insert\n2. Delete\n3. Search\n4. Display\n5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to insert: ";
+                cin >> value;
+                tree.insert(value);
+                break;
+            case 2:
+                cout << "Enter value to delete: ";
+                cin >> value;
+                tree.deleteValue(value);
+                break;
+            case 3:
+                cout << "Enter value to search: ";
+                cin >> value;
+                tree.search(value);
+                break;
+            case 4:
+                tree.display();
+                break;
+            case 5:
+                cout << "Exiting program.\n";
+                return 0;
+            default:
+                cout << "Invalid choice! Try again.\n";
+        }
+    }
+}

@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+#define MAX 10
+
+int n; // number of locations
+int graph[MAX][MAX];
+bool visited[MAX];
+int minTime = INT_MAX;
+
+void tsp(int start, int count, int cost, int src) {
+    // If all locations are visited and we can return to the start
+    if (count == n && graph[src][start] > 0) {
+        int totalCost = cost + graph[src][start];
+        minTime = min(minTime, totalCost);
+        return;
+    }
+
+    // Try all possible next locations
+    for (int i = 0; i < n; i++) {
+        if (!visited[i] && graph[src][i] > 0) {
+            visited[i] = true;
+            tsp(start, count + 1, cost + graph[src][i], i);
+            visited[i] = false;
+        }
+    }
+}
+
+int main() {
+    cout << "Enter number of locations: ";
+    cin >> n;
+
+    cout << "Enter time matrix (in minutes):\n";
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> graph[i][j];
+
+    for (int i = 0; i < n; i++)
+        visited[i] = false;
+
+    visited[0] = true; // start from 0 (pizza shop)
+    tsp(0, 1, 0, 0);
+
+    cout << "\nMinimum time to deliver pizzas to all locations: " << minTime << " minutes\n";
+
+    return 0;
+}
